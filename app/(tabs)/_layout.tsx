@@ -1,6 +1,13 @@
-import { Tabs } from "expo-router";
+import { Link, Tabs } from "expo-router";
 import React from "react";
-import { Platform } from "react-native";
+import {
+  Button,
+  Platform,
+  Pressable,
+  Text,
+  TouchableHighlight,
+  View,
+} from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
 import { IconSymbol } from "@/components/ui/IconSymbol";
@@ -29,7 +36,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)/index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
@@ -41,6 +48,15 @@ export default function TabLayout() {
         name="(settings)/index"
         options={{
           title: "Settings",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons size={28} name="settings" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="(details)/[id]"
+        options={{
+          href: null,
           tabBarIcon: ({ color }) => (
             <MaterialIcons size={28} name="settings" color={color} />
           ),

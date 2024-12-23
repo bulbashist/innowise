@@ -1,7 +1,7 @@
 import { CharacterAPI } from "@/services/api/q/CharacterAPI";
 import { Character } from "@/types/Character";
 import { MaterialIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   FlatList,

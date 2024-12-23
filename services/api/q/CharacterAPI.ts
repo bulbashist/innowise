@@ -1,56 +1,15 @@
 import { Character } from "@/types/Character";
 import * as data from "./MockData.json";
+import axios from "axios";
 
 export class CharacterAPI {
   public static async getMockedOnes(): Promise<Character[]> {
     return data.results as Character[];
-    return [
-      {
-        id: 23,
-        name: "Arcade Alien",
-        status: "unknown",
-        species: "Alien",
-        type: "",
-        gender: "Male",
-        origin: { name: "unknown", url: "" },
-        location: {
-          name: "Immortality Field Resort",
-          url: "https://rickandmortyapi.com/api/location/7",
-        },
-        image: "https://rickandmortyapi.com/api/character/avatar/23.jpeg",
-        episode: [
-          "https://rickandmortyapi.com/api/episode/13",
-          "https://rickandmortyapi.com/api/episode/19",
-          "https://rickandmortyapi.com/api/episode/21",
-          "https://rickandmortyapi.com/api/episode/25",
-          "https://rickandmortyapi.com/api/episode/26",
-        ],
-        url: "https://rickandmortyapi.com/api/character/23",
-        created: "2017-11-05T08:43:05.095Z",
-      },
-      {
-        id: 24,
-        name: "Arcade Alien",
-        status: "unknown",
-        species: "Alien",
-        type: "",
-        gender: "Male",
-        origin: { name: "unknown", url: "" },
-        location: {
-          name: "Immortality Field Resort",
-          url: "https://rickandmortyapi.com/api/location/7",
-        },
-        image: "https://rickandmortyapi.com/api/character/avatar/23.jpeg",
-        episode: [
-          "https://rickandmortyapi.com/api/episode/13",
-          "https://rickandmortyapi.com/api/episode/19",
-          "https://rickandmortyapi.com/api/episode/21",
-          "https://rickandmortyapi.com/api/episode/25",
-          "https://rickandmortyapi.com/api/episode/26",
-        ],
-        url: "https://rickandmortyapi.com/api/character/23",
-        created: "2017-11-05T08:43:05.095Z",
-      },
-    ];
+  }
+
+  public static async getOne(id: number): Promise<Character> {
+    return axios
+      .get(`https://rickandmortyapi.com/api/character/${id}`)
+      .then((res) => res.data);
   }
 }
