@@ -1,18 +1,18 @@
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { CharacterAPI } from "@/services/api/q/CharacterAPI";
-import { Character } from "@/types/Character";
+import { fetchCharacter } from "@/store/details/slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export default function CharacterScreen() {
   const { id } = useLocalSearchParams();
 
-  const [character, setCharacter] = useState<Character | null>(null);
+  const character = useAppSelector((state) => state.details.data);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    CharacterAPI.getOne(+id).then((res) => setCharacter(res));
+    dispatch(fetchCharacter(+id));
   }, []);
 
   if (!character) return null;

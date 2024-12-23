@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { changeTheme } from "@/store/settings/slice";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { Theme } from "@/types/Theme";
 import { StyleSheet, Switch, Text, View } from "react-native";
 
-enum Theme {
-  Dark = 0,
-  Light = 1,
-}
-
 export default function SettingsScreen() {
-  const [theme, setTheme] = useState(Theme.Dark);
+  const theme = useAppSelector((state) => state.settings.theme);
+  const dispatch = useAppDispatch();
+
+  const themeHandler = () => {
+    dispatch(changeTheme(theme === Theme.Dark ? Theme.Light : Theme.Dark));
+  };
 
   return (
     <View style={styles.main}>
@@ -16,9 +18,7 @@ export default function SettingsScreen() {
         <Switch
           trackColor={{ false: "#8f8f8f", true: "#8f8f8f" }}
           thumbColor={theme ? "white" : "black"}
-          onValueChange={() =>
-            setTheme((prev) => (prev === Theme.Dark ? Theme.Light : Theme.Dark))
-          }
+          onValueChange={themeHandler}
           value={!!theme}
         />
       </View>

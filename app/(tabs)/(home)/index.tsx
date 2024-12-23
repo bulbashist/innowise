@@ -14,34 +14,30 @@ import {
 } from "react-native";
 import { StatusColor } from "./types";
 import ControlView from "@/components/ControlView";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { changePage, fetchList } from "@/store/list/slice";
 
 export default function ListScreen() {
-  const [page, setPage] = useState(1);
-  const [chars, setChars] = useState<Character[]>([]);
-
-  const next = useRef<Promise<Character[]> | null>(null);
+  const { page, data } = useAppSelector((state) => state.list);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    CharacterAPI.getMockedOnes().then((res) => setChars(res));
+    dispatch(fetchList(page));
   }, []);
 
-  useEffect(() => {
-    // next.current = CharacterAPI.getMockedOnes();
-  }, [page]);
+  const uploadPage = () => {
+    dispatch(fetchList(page));
+    dispatch(changePage(page + 1));
+  };
 
   return (
     <SafeAreaView style={styles.main}>
       <ControlView />
       <FlatList
-        data={chars}
+        data={data}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        onEndReachedThreshold={100}
-        onEndReached={() =>
-          next.current?.then((res) => {
-            //   setChars((prev) => prev.concat(res));
-            //  setPage((prev) => prev + 1);
-          })
-        }
+        onEndReachedThreshold={1000}
+        onEndReached={uploadPage}
         renderItem={({ item }) => (
           <Link href="/(details)/1">
             <View style={styles.item}>
