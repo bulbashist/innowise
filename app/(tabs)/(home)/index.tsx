@@ -30,6 +30,8 @@ export default function ListScreen() {
     dispatch(changePage(page + 1));
   };
 
+  if (data.length === 0) return;
+
   return (
     <SafeAreaView style={styles.main}>
       <ControlView />
@@ -38,8 +40,9 @@ export default function ListScreen() {
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         onEndReachedThreshold={1000}
         onEndReached={uploadPage}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Link href="/(details)/1">
+          <Link href={`/(details)/${item.id}`}>
             <View style={styles.item}>
               <Image width={100} height={100} source={{ uri: item.image }} />
               <View>
@@ -74,8 +77,7 @@ export default function ListScreen() {
             </View>
           </Link>
         )}
-        keyExtractor={(item) => item.id.toString()}
-      ></FlatList>
+      />
     </SafeAreaView>
   );
 }

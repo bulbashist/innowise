@@ -1,6 +1,7 @@
 import { CharacterAPI } from "@/services/api/q/CharacterAPI";
 import { Character } from "@/types/Character";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { act } from "react";
 
 type State = {
   page: number;
@@ -26,7 +27,8 @@ const list = createSlice({
     builder.addCase(
       fetchList.fulfilled,
       (state, action: PayloadAction<Character[]>) => {
-        state.data = state.data.concat(action.payload);
+        state.data = action.payload;
+        // state.data = state.data.concat(action.payload);
       }
     ),
 });
