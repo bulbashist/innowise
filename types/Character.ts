@@ -1,17 +1,16 @@
 export type Character = {
-  id: number;
+  id: string;
   name: string;
   status: "Dead" | "Alive" | "unknown";
   species: string;
   type: string;
   gender: string;
-  origin: { name: string; url: string };
+  origin: { name: string };
   location: {
     name: string;
-    url: string;
   };
   image: string;
-  episode: Array<string>;
-  url: string;
-  created: string;
+  episode: Array<{
+    name: string;
+  }>;
 };

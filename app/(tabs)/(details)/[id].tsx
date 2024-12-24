@@ -119,7 +119,7 @@ export default function CharacterScreen() {
           ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
           renderItem={({ item, index }) => (
             <ThemedText>
-              {index + 1}. {item}
+              {index + 1}. {(item as any).name}
             </ThemedText>
           )}
         />

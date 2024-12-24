@@ -54,7 +54,7 @@ export default function ListScreen() {
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         onEndReachedThreshold={1000}
         onEndReached={uploadPage}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <Link href={`/(details)/${item.id}`}>
             <View style={styles.item}>
@@ -85,7 +85,7 @@ export default function ListScreen() {
                 </View>
                 <View>
                   <Text>First seen in:</Text>
-                  <Text>{item.episode[0]}</Text>
+                  <Text>{item.episode[0].name}</Text>
                 </View>
               </View>
             </View>
