@@ -11,16 +11,20 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { View } from "react-native";
+import { Appearance, View } from "react-native";
 import { Provider } from "react-redux";
 import { persistor, store } from "@/store/store";
 import { PersistGate } from "redux-persist/integration/react";
-
+import { useNetInfo } from "@react-native-community/netinfo";
+import { NoInternet } from "@/components/NoInternet";
+import a from "@react-native-community/netinfo";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const netInfo = useNetInfo();
+
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -33,6 +37,10 @@ export default function RootLayout() {
 
   if (!loaded) {
     return null;
+  }
+
+  if (!netInfo.isConnected) {
+    return <NoInternet />;
   }
 
   return (

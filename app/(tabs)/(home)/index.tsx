@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
+  Appearance,
   FlatList,
   Image,
   SafeAreaView,
@@ -24,6 +25,11 @@ export default function ListScreen() {
   useEffect(() => {
     dispatch(fetchList(page));
   }, []);
+
+  const mode = useAppSelector((state) => state.settings.theme);
+  useEffect(() => {
+    Appearance.setColorScheme(mode);
+  });
 
   const uploadPage = () => {
     dispatch(fetchList(page));
