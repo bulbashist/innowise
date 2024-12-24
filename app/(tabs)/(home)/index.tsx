@@ -17,24 +17,32 @@ import { StatusColor } from "./types";
 import ControlView from "@/components/ControlView";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { changePage, fetchList } from "@/store/list/slice";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { NoInternet } from "@/components/NoInternet";
 
 export default function ListScreen() {
   const { page, data } = useAppSelector((state) => state.list);
+  const mode = useAppSelector((state) => state.settings.mode);
   const dispatch = useAppDispatch();
+  const netInfo = useNetInfo();
 
   useEffect(() => {
     dispatch(fetchList(page));
   }, []);
 
-  const mode = useAppSelector((state) => state.settings.theme);
+  const theme = useAppSelector((state) => state.settings.theme);
   useEffect(() => {
-    Appearance.setColorScheme(mode);
+    Appearance.setColorScheme(theme);
   });
 
   const uploadPage = () => {
     dispatch(fetchList(page));
     dispatch(changePage(page + 1));
   };
+
+  if (mode === "online" && !netInfo.isConnected) {
+    return <NoInternet />;
+  }
 
   if (data.length === 0) return;
 

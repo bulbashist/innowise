@@ -4,11 +4,13 @@ import { Appearance, ColorSchemeName } from "react-native";
 
 type State = {
   theme: Theme;
+  mode: "offline" | "online";
 };
 
 const settings = createSlice({
   initialState: {
     theme: Theme.Dark,
+    mode: "online",
   } as State,
   name: "settings",
   reducers: {
@@ -16,8 +18,11 @@ const settings = createSlice({
       Appearance.setColorScheme(action.payload as ColorSchemeName);
       state.theme = action.payload;
     },
+    changeMode: (state: State, action) => {
+      state.mode = action.payload;
+    },
   },
 });
 
-export const { changeTheme } = settings.actions;
+export const { changeTheme, changeMode } = settings.actions;
 export default settings.reducer;
