@@ -1,3 +1,5 @@
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { changeTheme } from "@/store/settings/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Theme } from "@/types/Theme";
@@ -7,19 +9,21 @@ export default function SettingsScreen() {
   const theme = useAppSelector((state) => state.settings.theme);
   const dispatch = useAppDispatch();
 
-  const themeHandler = () => {
-    dispatch(changeTheme(theme === Theme.Dark ? Theme.Light : Theme.Dark));
+  const themeHandler = (v: boolean) => {
+    dispatch(changeTheme(v ? Theme.Dark : Theme.Light));
   };
 
   return (
     <View style={styles.main}>
       <View style={styles.themeWrapper}>
-        <Text style={{ fontSize: 20, fontWeight: 500 }}>Application theme</Text>
+        <ThemedText style={{ fontSize: 20, fontWeight: 500 }}>
+          Dark mode
+        </ThemedText>
         <Switch
           trackColor={{ false: "#8f8f8f", true: "#8f8f8f" }}
           thumbColor={theme ? "white" : "black"}
           onValueChange={themeHandler}
-          value={!!theme}
+          value={theme === Theme.Light ? false : true}
         />
       </View>
     </View>
