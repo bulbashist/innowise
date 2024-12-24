@@ -119,7 +119,7 @@ export default function CharacterScreen() {
           ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
           renderItem={({ item, index }) => (
             <ThemedText>
-              {index + 1}. {(item as any).name}
+              {index + 1}. {item.name}
             </ThemedText>
           )}
         />
@@ -142,7 +142,6 @@ export default function CharacterScreen() {
             darkColor="#c86a3d"
             style={{
               display: "flex",
-              // backgroundColor: "#fadf81",
               alignItems: "center",
               borderWidth: 1,
               borderRadius: "50%",
@@ -153,10 +152,20 @@ export default function CharacterScreen() {
           >
             <MaterialCommunityIcons
               size={23}
-              name={speciesIconMap.get(character.species) as never}
+              name={
+                (speciesIconMap.get(character.species) as never) ??
+                "account-question"
+              }
               color={iconColor}
             />
-            <ThemedText style={{ fontSize: 12, fontWeight: 900 }}>
+            <ThemedText
+              style={{
+                marginTop: 0,
+                lineHeight: 12,
+                fontSize: 12,
+                fontWeight: 900,
+              }}
+            >
               {character.species}
             </ThemedText>
           </ThemedView>
