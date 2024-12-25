@@ -21,22 +21,22 @@ import { useNetInfo } from "@react-native-community/netinfo";
 import { NoInternet } from "@/components/NoInternet";
 
 export default function ListScreen() {
-  const { page, data } = useAppSelector((state) => state.list);
+  const { page, data, filter } = useAppSelector((state) => state.list);
   const mode = useAppSelector((state) => state.settings.mode);
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
 
   useEffect(() => {
-    dispatch(fetchList(page));
-  }, []);
+    dispatch(fetchList({ page, filter }));
+  }, [page, filter]);
 
   const theme = useAppSelector((state) => state.settings.theme);
+
   useEffect(() => {
     Appearance.setColorScheme(theme);
-  });
+  }, []);
 
   const uploadPage = () => {
-    dispatch(fetchList(page));
     dispatch(changePage(page + 1));
   };
 
@@ -54,7 +54,7 @@ export default function ListScreen() {
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         onEndReachedThreshold={1000}
         onEndReached={uploadPage}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => item.id}
         renderItem={({ item }) => (
           <Link href={`/(details)/${item.id}`}>
             <View style={styles.item}>
@@ -111,3 +111,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+/* TODO check key encounter */

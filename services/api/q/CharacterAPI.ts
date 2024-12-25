@@ -2,6 +2,7 @@ import { Character } from "@/types/Character";
 import * as data from "./MockData.json";
 import axios from "axios";
 import { getManyQuery, getOneQuery } from "./queries";
+import { Filter } from "@/store/list/slice";
 
 export class CharacterAPI {
   public static async getMockedOnes(): Promise<Character[]> {
@@ -18,10 +19,13 @@ export class CharacterAPI {
     //   .then((res) => res.data);
   }
 
-  public static async getMany(page: number): Promise<Character[]> {
+  public static async getMany(
+    page: number,
+    filter: Filter
+  ): Promise<Character[]> {
     return axios
       .post("https://rickandmortyapi.graphcdn.app/", {
-        query: getManyQuery(page),
+        query: getManyQuery(page, filter),
       })
       .then((res) => res.data.data.characters.results);
   }

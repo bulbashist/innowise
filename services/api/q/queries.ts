@@ -1,3 +1,5 @@
+import { Filter } from "@/store/list/slice";
+
 const getOneQuery = (id: number) => {
   return `
     query {
@@ -22,10 +24,16 @@ const getOneQuery = (id: number) => {
     }`;
 };
 
-const getManyQuery = (page: number) => {
+// "fgg" : null
+
+// FIX
+const getManyQuery = (page: number, filter: Filter) => {
   return `
     query {
-      characters(page: 2) {
+      characters(page: ${page}, filter: {
+        status: "${filter.status}",
+        species: "${filter.species}"
+      }) {
         results {
           id
           name
