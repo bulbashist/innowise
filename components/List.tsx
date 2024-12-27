@@ -4,6 +4,7 @@ import { ListCard } from "./ListCard";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
 import { fetchFirstItems, fetchList } from "@/store/list/slice";
+import React from "react";
 
 type Props = {
   loading: boolean;

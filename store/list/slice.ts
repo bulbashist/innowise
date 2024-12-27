@@ -1,6 +1,7 @@
 import { CharacterAPI } from "@/services/api/q/CharacterAPI";
 import { Character } from "@/types/Character";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import NetInfo from "@react-native-community/netinfo";
 
 export type Filter = {
   status: string;
@@ -18,18 +19,24 @@ type State = {
 const fetchFirstItems = createAsyncThunk(
   "fetch-list-1",
   async ({ page, filter }: { page: number; filter: Filter }) => {
-    // return CharacterAPI.getMockedOnes();
-    return CharacterAPI.getMany(page, filter);
+    const isConnected = await NetInfo.fetch().then((res) => res.isConnected);
+    if (isConnected) {
+      return CharacterAPI.getMany(page, filter);
+    } else {
+      return CharacterAPI.getMockedOnes();
+    }
   }
 );
 
 const fetchList = createAsyncThunk(
   "fetch-list",
   async ({ page, filter }: { page: number; filter: Filter }) => {
-    // return CharacterAPI.getMockedOnes();
-    console.log(page);
-    // return Promise.reject();
-    return CharacterAPI.getMany(page, filter);
+    const isConnected = await NetInfo.fetch().then((res) => res.isConnected);
+    if (isConnected) {
+      return CharacterAPI.getMany(page, filter);
+    } else {
+      return CharacterAPI.getMockedOnes();
+    }
   }
 );
 
