@@ -11,12 +11,24 @@ type State = {
   page: number;
   data: Character[];
   filter: Filter;
+  loading: boolean;
+  error: boolean;
 };
+
+const fetchFirstItems = createAsyncThunk(
+  "fetch-list-1",
+  async ({ page, filter }: { page: number; filter: Filter }) => {
+    // return CharacterAPI.getMockedOnes();
+    return CharacterAPI.getMany(page, filter);
+  }
+);
 
 const fetchList = createAsyncThunk(
   "fetch-list",
   async ({ page, filter }: { page: number; filter: Filter }) => {
     // return CharacterAPI.getMockedOnes();
+    console.log(page);
+    // return Promise.reject();
     return CharacterAPI.getMany(page, filter);
   }
 );
@@ -29,12 +41,11 @@ const list = createSlice({
       status: "",
       species: "",
     },
+    loading: false,
+    error: false,
   } as State,
   name: "list",
   reducers: {
-    changePage: (state: State, action: PayloadAction<number>) => {
-      state.page = action.payload;
-    },
     changeFilter: (state: State, action: PayloadAction<Partial<Filter>>) => {
       state.filter = { ...state.filter, ...action.payload };
       state.page = 1;
@@ -42,14 +53,43 @@ const list = createSlice({
     },
   },
   extraReducers: (builder) =>
-    builder.addCase(
-      fetchList.fulfilled,
-      (state, action: PayloadAction<Character[]>) => {
-        state.data = state.data.concat(action.payload);
-      }
-    ),
+    builder
+      .addCase(
+        fetchFirstItems.fulfilled,
+        (state, action: PayloadAction<Character[]>) => {
+          state.data = action.payload;
+          state.loading = false;
+          state.error = false;
+          state.page += 1;
+        }
+      )
+      .addCase(fetchFirstItems.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchFirstItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+      })
+      .addCase(
+        fetchList.fulfilled,
+        (state, action: PayloadAction<Character[]>) => {
+          state.data = state.data.concat(action.payload);
+          state.loading = false;
+          state.error = false;
+          state.page += 1;
+        }
+      )
+      .addCase(fetchList.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchList.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+      }),
 });
 
-export { fetchList };
-export const { changePage, changeFilter } = list.actions;
+export { fetchList, fetchFirstItems };
+export const { changeFilter } = list.actions;
 export default list.reducer;
