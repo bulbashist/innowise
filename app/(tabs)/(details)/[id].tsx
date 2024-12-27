@@ -7,7 +7,14 @@ import {
 } from "@expo/vector-icons";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { StatusColor } from "../(home)/types";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -24,7 +31,11 @@ export default function CharacterScreen() {
   const { id } = useLocalSearchParams();
   const netInfo = useNetInfo();
 
-  const character = useAppSelector((state) => state.details.data);
+  const {
+    data: character,
+    error,
+    loading,
+  } = useAppSelector((state) => state.details);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,6 +48,8 @@ export default function CharacterScreen() {
   if (!netInfo.isConnected) {
     return <NoInternet />;
   }
+
+  if (loading) return <ActivityIndicator />;
 
   if (!character) return null;
 

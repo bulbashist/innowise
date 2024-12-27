@@ -4,6 +4,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type State = {
   data: Character | null;
+  loading: boolean;
+  error: boolean;
 };
 
 const fetchCharacter = createAsyncThunk(
@@ -16,16 +18,29 @@ const fetchCharacter = createAsyncThunk(
 const details = createSlice({
   initialState: {
     data: null,
+    loading: false,
+    error: false,
   } as State,
   name: "details",
   reducers: {},
   extraReducers: (builder) =>
-    builder.addCase(
-      fetchCharacter.fulfilled,
-      (state, action: PayloadAction<Character>) => {
-        state.data = action.payload;
-      }
-    ),
+    builder
+      .addCase(
+        fetchCharacter.fulfilled,
+        (state, action: PayloadAction<Character>) => {
+          state.data = action.payload;
+          state.loading = false;
+          state.error = false;
+        }
+      )
+      .addCase(fetchCharacter.pending, (state, action) => {
+        state.loading = true;
+        state.error = false;
+      })
+      .addCase(fetchCharacter.rejected, (state, action) => {
+        state.loading = false;
+        state.error = true;
+      }),
 });
 
 export { fetchCharacter };
