@@ -1,16 +1,17 @@
 import { changeFilter } from "@/store/list/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { Picker } from "@react-native-picker/picker";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 export default function ControlView() {
   const { species, status } = useAppSelector((state) => state.list.filter);
   const dispatch = useAppDispatch();
 
   return (
-    <View>
+    <View style={styles.wrapper}>
       <Picker
         mode="dropdown"
+        style={styles.picker}
         selectedValue={species}
         onValueChange={(value) =>
           dispatch(changeFilter({ species: value.trim() }))
@@ -21,6 +22,7 @@ export default function ControlView() {
         <Picker.Item label="Human" value="Human" />
       </Picker>
       <Picker
+        style={styles.picker}
         mode="dropdown"
         selectedValue={status}
         onValueChange={(value) => {
@@ -35,3 +37,14 @@ export default function ControlView() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  picker: {
+    width: 200,
+  },
+});
