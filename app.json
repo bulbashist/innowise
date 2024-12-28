@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "app",
+    "name": "innowise",
     "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bulbashist.app"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +37,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "a5e395be-66e2-41d0-9866-372a62eba6c1"
+      }
     }
   }
 }

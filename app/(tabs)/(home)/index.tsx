@@ -1,26 +1,9 @@
-import { CharacterAPI } from "@/services/api/q/CharacterAPI";
-import { Character } from "@/types/Character";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
-import { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Appearance,
-  FlatList,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
-import { StatusColor } from "./types";
-import ControlView from "@/components/ControlView";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { fetchFirstItems, fetchList } from "@/store/list/slice";
+import { useEffect } from "react";
+import { Appearance, SafeAreaView, StyleSheet } from "react-native";
 import { useNetInfo } from "@react-native-community/netinfo";
+import ControlView from "@/components/ControlView";
+import { useAppSelector } from "@/store/store";
 import { NoInternet } from "@/components/NoInternet";
-import { ListCard } from "@/components/ListCard";
 import { CharacterList } from "@/components/List";
 
 export default function ListScreen() {

@@ -1,31 +1,17 @@
 import { fetchCharacter } from "@/store/details/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import {
-  Fontisto,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { StatusColor } from "../(home)/types";
+import { Image, StyleSheet, View } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useNetInfo } from "@react-native-community/netinfo";
 import { NoInternet } from "@/components/NoInternet";
 import { Theme } from "@/types/Theme";
-
-const speciesIconMap = new Map([
-  ["Alien", "alien"],
-  ["Human", "human-handsdown"],
-]);
+import { CustomIndicator } from "@/components/CustomIndicator";
+import { MainInfo } from "@/components/details/MainInfo";
+import { BottomLine } from "@/components/details/BottomLine";
 
 export default function CharacterScreen() {
   const { id } = useLocalSearchParams();
@@ -49,7 +35,12 @@ export default function CharacterScreen() {
     return <NoInternet />;
   }
 
-  if (loading) return <ActivityIndicator />;
+  if (loading)
+    return (
+      <View style={{ position: "relative", width: "100%", height: "100%" }}>
+        <CustomIndicator style={styles.indicator} />
+      </View>
+    );
 
   if (!character) return null;
 
@@ -65,131 +56,29 @@ export default function CharacterScreen() {
         </Link>
         <ThemedText style={styles.headline}>{character.name}</ThemedText>
       </ThemedView>
-      <Image height={400} source={{ uri: character.image }} />
-      <View
-        style={{
-          flex: 1,
-          position: "relative",
-          paddingHorizontal: 5,
-          marginTop: 10,
-        }}
-      >
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap: 15,
-          }}
-        >
-          <View style={{ display: "flex", flexDirection: "column", gap: 5 }}>
-            <View style={styles.attributeBlock}>
-              <Fontisto
-                name="intersex"
-                size={20}
-                color={iconColor}
-                style={{ paddingLeft: 2 }}
-              />
-              <ThemedText>{character.gender}</ThemedText>
-            </View>
-            <View style={styles.attributeBlock}>
-              <MaterialCommunityIcons
-                name="home-map-marker"
-                size={20}
-                color={iconColor}
-              />
-              <ThemedText>{character.origin.name}</ThemedText>
-            </View>
-          </View>
-          <View style={{ flexBasis: 150, flexShrink: 1 }}>
-            <ThemedText
-              style={{
-                textAlign: "center",
-                fontWeight: 600,
-                fontSize: 16,
-              }}
-            >
-              Last Seen
-            </ThemedText>
-            <ThemedText style={{ textAlign: "center" }}>
-              {character.location.name}
-            </ThemedText>
-          </View>
-        </View>
-        <ThemedText
-          style={{
-            marginTop: 10,
-            marginBottom: 3,
-            fontSize: 16,
-            fontWeight: 600,
-          }}
-        >
-          Played in episodes
-        </ThemedText>
-        <FlatList
-          data={character.episode}
-          style={{ marginBottom: 70 }}
-          ItemSeparatorComponent={() => <View style={{ height: 5 }} />}
-          renderItem={({ item, index }) => (
-            <ThemedText>
-              {index + 1}. {item.name}
-            </ThemedText>
-          )}
-        />
-        <ThemedView
-          lightColor="#4cd8dc"
-          darkColor="#4848bf"
-          style={styles.bottomLine}
-        >
-          <View style={styles.attributeBlock}>
-            <ThemedText style={{ fontSize: 20 }}>{character.status}</ThemedText>
-            <MaterialIcons
-              name="circle"
-              size={30}
-              color={StatusColor[character.status]}
-              style={{ marginRight: 2 }}
-            />
-          </View>
-          <ThemedView
-            lightColor="#fadf81"
-            darkColor="#c86a3d"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              borderWidth: 1,
-              borderRadius: "50%",
-              paddingVertical: 10,
-              aspectRatio: 1,
-              height: "90%",
-            }}
-          >
-            <MaterialCommunityIcons
-              size={23}
-              name={
-                (speciesIconMap.get(character.species) as never) ??
-                "account-question"
-              }
-              color={iconColor}
-            />
-            <ThemedText
-              style={{
-                marginTop: 0,
-                lineHeight: 12,
-                fontSize: 12,
-                fontWeight: 900,
-              }}
-            >
-              {character.species}
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+      <Image
+        height={400}
+        resizeMode="contain"
+        source={{ uri: character.image }}
+      />
+      <View style={styles.infoBlock}>
+        <MainInfo character={character} style={styles.mainInfo} />
+        <BottomLine character={character} style={styles.bottomLine} />
       </View>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+  indicator: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexGrow: 1,
+  },
   screen: {
+    display: "flex",
+    flexDirection: "column",
     height: "100%",
   },
   header: {
@@ -209,11 +98,15 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     textAlign: "center",
   },
-  attributeBlock: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 5,
+  infoBlock: {
+    flexShrink: 1,
+    position: "relative",
+    paddingHorizontal: 5,
+    marginTop: 10,
+  },
+  mainInfo: {
+    flexShrink: 1,
+    marginBottom: 70,
   },
   bottomLine: {
     position: "absolute",

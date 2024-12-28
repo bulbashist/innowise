@@ -1,7 +1,13 @@
 import { useEffect } from "react";
-import { Animated, StyleSheet, useAnimatedValue, View } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  useAnimatedValue,
+  View,
+  ViewProps,
+} from "react-native";
 
-export function CustomIndicator() {
+export function CustomIndicator({ style }: ViewProps) {
   const moveAnim = useAnimatedValue(0);
 
   useEffect(() => {
@@ -22,123 +28,125 @@ export function CustomIndicator() {
   }, [moveAnim]);
 
   return (
-    <View style={styles.container}>
-      <Animated.View
-        style={[
-          styles.item,
-          {
-            left: 0,
-            top: 0,
-            transform: [
-              {
-                translateX: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 25],
-                }),
-              },
-              {
-                translateY: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 25],
-                }),
-              },
-              {
-                rotateZ: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0deg", "45deg"],
-                }),
-              },
-            ],
-          },
-        ]}
-      />
-      <Animated.View
-        style={[
-          styles.item,
-          {
-            left: 0,
-            bottom: 0,
-            transform: [
-              {
-                translateX: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 25],
-                }),
-              },
-              {
-                translateY: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, -25],
-                }),
-              },
-              {
-                rotateZ: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0deg", "45deg"],
-                }),
-              },
-            ],
-          },
-        ]}
-      />
-      <Animated.View
-        style={[
-          styles.item,
-          {
-            right: 0,
-            top: 0,
-            transform: [
-              {
-                translateX: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, -25],
-                }),
-              },
-              {
-                translateY: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, 25],
-                }),
-              },
-              {
-                rotateZ: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0deg", "45deg"],
-                }),
-              },
-            ],
-          },
-        ]}
-      />
-      <Animated.View
-        style={[
-          styles.item,
-          {
-            right: 0,
-            bottom: 0,
-            transform: [
-              {
-                translateX: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, -25],
-                }),
-              },
-              {
-                translateY: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [0, -25],
-                }),
-              },
-              {
-                rotateZ: moveAnim.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: ["0deg", "45deg"],
-                }),
-              },
-            ],
-          },
-        ]}
-      />
+    <View style={style}>
+      <View style={styles.container}>
+        <Animated.View
+          style={[
+            styles.item,
+            {
+              left: 0,
+              top: 0,
+              transform: [
+                {
+                  translateX: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 25],
+                  }),
+                },
+                {
+                  translateY: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 25],
+                  }),
+                },
+                {
+                  rotateZ: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0deg", "45deg"],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.item,
+            {
+              left: 0,
+              bottom: 0,
+              transform: [
+                {
+                  translateX: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 25],
+                  }),
+                },
+                {
+                  translateY: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -25],
+                  }),
+                },
+                {
+                  rotateZ: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0deg", "45deg"],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.item,
+            {
+              right: 0,
+              top: 0,
+              transform: [
+                {
+                  translateX: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -25],
+                  }),
+                },
+                {
+                  translateY: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, 25],
+                  }),
+                },
+                {
+                  rotateZ: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0deg", "45deg"],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.item,
+            {
+              right: 0,
+              bottom: 0,
+              transform: [
+                {
+                  translateX: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -25],
+                  }),
+                },
+                {
+                  translateY: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0, -25],
+                  }),
+                },
+                {
+                  rotateZ: moveAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ["0deg", "45deg"],
+                  }),
+                },
+              ],
+            },
+          ]}
+        />
+      </View>
     </View>
   );
 }

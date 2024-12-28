@@ -1,10 +1,10 @@
-import { StatusColor } from "@/app/(tabs)/(home)/types";
 import { Character } from "@/types/Character";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import { StatusColor } from "@/types/StatusColor";
 
 type Props = {
   item: Character;
@@ -15,13 +15,7 @@ export function ListCard({ item }: Props) {
     <Link href={`/(details)/${item.id}`}>
       <ThemedView lightColor="#bec0c6" darkColor="#777779" style={styles.item}>
         <Image width={120} height={120} source={{ uri: item.image }} />
-        <View
-          style={{
-            paddingVertical: 20,
-            paddingRight: 10,
-            flexShrink: 1,
-          }}
-        >
+        <View style={styles.info}>
           <View style={{ marginBottom: 20 }}>
             <ThemedText style={{ fontWeight: 700 }}>{item.name}</ThemedText>
             <View
@@ -66,5 +60,10 @@ const styles = StyleSheet.create({
     gap: 10,
     width: "100%",
     borderRadius: 10,
+  },
+  info: {
+    flexShrink: 1,
+    paddingVertical: 20,
+    paddingRight: 10,
   },
 });

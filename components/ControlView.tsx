@@ -73,11 +73,13 @@ const styles = StyleSheet.create({
   wrapper: {
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-evenly",
+    gap: 5,
     marginBottom: 5,
   },
   picker: {
-    width: 200,
+    minWidth: 200,
   },
   darkPicker: {
     backgroundColor: "#111111",
