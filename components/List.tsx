@@ -3,8 +3,9 @@ import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import { ListCard } from "./ListCard";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { useEffect, useRef, useState } from "react";
-import { fetchFirstItems, fetchList } from "@/store/list/slice";
+import { fetchPage } from "@/store/list/slice";
 import React from "react";
+import { CustomIndicator } from "./CustomIndicator";
 
 type Props = {
   loading: boolean;
@@ -20,11 +21,13 @@ export function CharacterList() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchFirstItems({ page, filter }));
+    dispatch(fetchPage({ page, filter, first: true }));
   }, [filter]);
 
   const uploadPage = () => {
-    dispatch(fetchList({ page, filter }));
+    if (!loading) {
+      dispatch(fetchPage({ page, filter }));
+    }
   };
 
   //change name later
@@ -32,8 +35,17 @@ export function CharacterList() {
 
   if (!data.length && loading) {
     return (
-      <View style={{ position: "absolute", top: "50%", left: "50%" }}>
-        <ActivityIndicator size="large" />
+      <View style={{ position: "relative", width: "100%", height: "100%" }}>
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexGrow: 1,
+          }}
+        >
+          <CustomIndicator />
+        </View>
       </View>
     );
   }
@@ -61,7 +73,17 @@ export function CharacterList() {
         }}
         onEndReached={() => (t.current = true)}
         ListFooterComponent={
-          loading ? <ActivityIndicator size="large" /> : null
+          loading ? (
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                paddingVertical: 10,
+              }}
+            >
+              <CustomIndicator />
+            </View>
+          ) : null
         }
         keyExtractor={(item, index) => item.id}
         renderItem={({ item }) => <ListCard item={item} />}

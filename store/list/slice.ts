@@ -16,26 +16,26 @@ type State = {
   error: boolean;
 };
 
-const fetchFirstItems = createAsyncThunk(
-  "fetch-list-1",
-  async ({ page, filter }: { page: number; filter: Filter }) => {
-    const isConnected = await NetInfo.fetch().then((res) => res.isConnected);
-    if (isConnected) {
-      return CharacterAPI.getMany(page, filter);
-    } else {
-      return CharacterAPI.getMockedOnes();
-    }
-  }
-);
+type FetchPageArgs = {
+  page: number;
+  filter: Filter;
+  first?: boolean;
+};
 
-const fetchList = createAsyncThunk(
-  "fetch-list",
-  async ({ page, filter }: { page: number; filter: Filter }) => {
+const fetchPage = createAsyncThunk(
+  "fetch-page",
+  async ({ page, filter, first }: FetchPageArgs) => {
     const isConnected = await NetInfo.fetch().then((res) => res.isConnected);
     if (isConnected) {
-      return CharacterAPI.getMany(page, filter);
+      return CharacterAPI.getMany(page, filter).then((res) => ({
+        data: res,
+        first,
+      }));
     } else {
-      return CharacterAPI.getMockedOnes();
+      return CharacterAPI.getMockedOnes().then((res) => ({
+        data: res,
+        first,
+      }));
     }
   }
 );
@@ -61,42 +61,26 @@ const list = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(
-        fetchFirstItems.fulfilled,
-        (state, action: PayloadAction<Character[]>) => {
-          state.data = action.payload;
-          state.loading = false;
-          state.error = false;
-          state.page += 1;
+      .addCase(fetchPage.fulfilled, (state, action) => {
+        if (action.payload.first) {
+          state.data = action.payload.data;
+        } else {
+          state.data = state.data.concat(action.payload.data);
         }
-      )
-      .addCase(fetchFirstItems.pending, (state, action) => {
-        state.loading = true;
-        state.error = false;
-      })
-      .addCase(fetchFirstItems.rejected, (state, action) => {
         state.loading = false;
-        state.error = true;
+        state.error = false;
+        state.page += 1;
       })
-      .addCase(
-        fetchList.fulfilled,
-        (state, action: PayloadAction<Character[]>) => {
-          state.data = state.data.concat(action.payload);
-          state.loading = false;
-          state.error = false;
-          state.page += 1;
-        }
-      )
-      .addCase(fetchList.pending, (state, action) => {
+      .addCase(fetchPage.pending, (state, action) => {
         state.loading = true;
         state.error = false;
       })
-      .addCase(fetchList.rejected, (state, action) => {
+      .addCase(fetchPage.rejected, (state, action) => {
         state.loading = false;
         state.error = true;
       }),
 });
 
-export { fetchList, fetchFirstItems };
+export { fetchPage };
 export const { changeFilter } = list.actions;
 export default list.reducer;
