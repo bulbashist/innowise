@@ -1,18 +1,20 @@
 import { refresh } from "@react-native-community/netinfo";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, TouchableOpacity, View, ViewProps } from "react-native";
 
-export function NoInternet() {
+export function NoInternet({ style }: ViewProps) {
   return (
-    <ThemedView style={styles.wrapper}>
-      <ThemedText style={{ textAlign: "center" }}>
-        Please check your internet connection and try again
-      </ThemedText>
-      <TouchableOpacity style={styles.button} onPress={refresh}>
-        <ThemedText style={{ textAlign: "center" }}>Try again</ThemedText>
-      </TouchableOpacity>
-    </ThemedView>
+    <View style={style}>
+      <ThemedView style={styles.wrapper}>
+        <ThemedText style={{ textAlign: "center" }}>
+          Please check your internet connection and try again
+        </ThemedText>
+        <TouchableOpacity style={styles.button} onPress={refresh}>
+          <ThemedText style={{ textAlign: "center" }}>Try again</ThemedText>
+        </TouchableOpacity>
+      </ThemedView>
+    </View>
   );
 }
 
@@ -22,7 +24,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     gap: 20,
-    paddingVertical: 10,
+    padding: 10,
   },
   button: {
     width: 150,

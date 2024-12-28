@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/store/store";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams } from "expo-router";
 import { useEffect } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useNetInfo } from "@react-native-community/netinfo";
@@ -16,6 +16,8 @@ import { BottomLine } from "@/components/details/BottomLine";
 export default function CharacterScreen() {
   const { id } = useLocalSearchParams();
   const netInfo = useNetInfo();
+
+  const { width, height } = useWindowDimensions();
 
   const {
     data: character,
@@ -57,7 +59,8 @@ export default function CharacterScreen() {
         <ThemedText style={styles.headline}>{character.name}</ThemedText>
       </ThemedView>
       <Image
-        height={400}
+        height={1000}
+        style={{ maxHeight: "30%" }}
         resizeMode="contain"
         source={{ uri: character.image }}
       />
@@ -101,6 +104,7 @@ const styles = StyleSheet.create({
   infoBlock: {
     flexShrink: 1,
     position: "relative",
+    height: "100%",
     paddingHorizontal: 5,
     marginTop: 10,
   },
