@@ -1,7 +1,7 @@
 import { Character } from "@/types/Character";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 import { StatusColor } from "@/types/StatusColor";

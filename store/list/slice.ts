@@ -2,6 +2,7 @@ import { CharacterAPI } from "@/services/api/q/CharacterAPI";
 import { Character } from "@/types/Character";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import NetInfo from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type Filter = {
   status: string;
@@ -32,10 +33,12 @@ const fetchPage = createAsyncThunk(
         first,
       }));
     } else {
-      return CharacterAPI.getMockedOnes().then((res) => ({
-        data: res,
-        first,
-      }));
+      if (first) {
+        return CharacterAPI.getMockedOnes().then((res) => ({
+          data: res,
+          first,
+        }));
+      } else return Promise.reject();
     }
   }
 );
@@ -67,6 +70,12 @@ const list = createSlice({
         } else {
           state.data = state.data.concat(action.payload.data);
         }
+
+        AsyncStorage.setItem(
+          "mock-data",
+          JSON.stringify(action.payload.data.slice(-15))
+        );
+
         state.loading = false;
         state.error = false;
         state.page += 1;
