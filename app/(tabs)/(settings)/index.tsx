@@ -1,12 +1,11 @@
-import { StyleSheet, Switch, View } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
 import { changeMode, changeTheme } from "@/store/settings/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { Mode } from "@/types/Mode";
-import { Theme } from "@/types/Theme";
+import { StyleSheet, Switch, View } from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { Theme } from "@/types";
 
 export default function SettingsScreen() {
-  const { mode, theme } = useAppSelector((state) => state.settings);
+  const { offlineMode, theme } = useAppSelector((state) => state.settings);
   const dispatch = useAppDispatch();
 
   const themeHandler = (v: boolean) => {
@@ -14,7 +13,7 @@ export default function SettingsScreen() {
   };
 
   const modeHandler = (v: boolean) => {
-    dispatch(changeMode(v ? Mode.Offline : Mode.Online));
+    dispatch(changeMode(v));
   };
 
   return (
@@ -34,7 +33,7 @@ export default function SettingsScreen() {
           trackColor={{ false: "#8f8f8f", true: "#8f8f8f" }}
           thumbColor={theme ? "white" : "black"}
           onValueChange={modeHandler}
-          value={mode === Mode.Online ? false : true}
+          value={offlineMode}
         />
       </View>
     </View>
@@ -43,6 +42,9 @@ export default function SettingsScreen() {
 
 const styles = StyleSheet.create({
   main: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 5,
     paddingTop: 50,
     paddingHorizontal: 25,
   },

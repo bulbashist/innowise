@@ -1,18 +1,15 @@
-import { FlatList, StyleSheet, Text, View, ViewProps } from "react-native";
-import { ThemedText } from "../ThemedText";
 import { Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Character } from "@/types/Character";
-import React from "react";
-import { useAppSelector } from "@/store/store";
-import { Theme } from "@/types/Theme";
+import { FlatList, StyleSheet, View, ViewProps } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { ThemedText } from "../ThemedText";
+import { Character } from "@/types";
 
 type Props = ViewProps & {
   character: Character;
 };
 
 export function MainInfo({ character, style }: Props) {
-  const theme = useAppSelector((state) => state.settings.theme);
-  const iconColor = theme === Theme.Light ? "black" : "white";
+  const iconColor = useThemeColor({}, "icon");
 
   return (
     <View style={style}>
@@ -72,15 +69,15 @@ const styles = StyleSheet.create({
     flexBasis: 150,
     flexShrink: 1,
   },
-  upperContainerLeft: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
-  },
   attributeBlock: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
+    gap: 5,
+  },
+  upperContainerLeft: {
+    display: "flex",
+    flexDirection: "column",
     gap: 5,
   },
   textCentered: {

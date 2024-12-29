@@ -1,25 +1,25 @@
-import { Theme } from "@/types/Theme";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Appearance, ColorSchemeName } from "react-native";
+import { Appearance } from "react-native";
+import { Theme } from "@/types";
 
 type State = {
   theme: Theme;
-  mode: "offline" | "online";
+  offlineMode: boolean;
 };
 
 const settings = createSlice({
   initialState: {
     theme: Theme.Dark,
-    mode: "online",
+    offlineMode: false,
   } as State,
   name: "settings",
   reducers: {
-    changeTheme: (state: State, action: PayloadAction<Theme>) => {
-      Appearance.setColorScheme(action.payload as ColorSchemeName);
+    changeTheme: (state, action: PayloadAction<Theme>) => {
+      Appearance.setColorScheme(action.payload);
       state.theme = action.payload;
     },
-    changeMode: (state: State, action) => {
-      state.mode = action.payload;
+    changeMode: (state, action: PayloadAction<boolean>) => {
+      state.offlineMode = action.payload;
     },
   },
 });

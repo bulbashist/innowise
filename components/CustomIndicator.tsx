@@ -40,13 +40,13 @@ export function CustomIndicator({ style }: ViewProps) {
                 {
                   translateX: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 25],
+                    outputRange: [0, 30],
                   }),
                 },
                 {
                   translateY: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 25],
+                    outputRange: [0, 30],
                   }),
                 },
                 {
@@ -69,13 +69,13 @@ export function CustomIndicator({ style }: ViewProps) {
                 {
                   translateX: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 25],
+                    outputRange: [0, 30],
                   }),
                 },
                 {
                   translateY: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, -25],
+                    outputRange: [0, -30],
                   }),
                 },
                 {
@@ -98,13 +98,13 @@ export function CustomIndicator({ style }: ViewProps) {
                 {
                   translateX: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, -25],
+                    outputRange: [0, -30],
                   }),
                 },
                 {
                   translateY: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 25],
+                    outputRange: [0, 30],
                   }),
                 },
                 {
@@ -127,13 +127,13 @@ export function CustomIndicator({ style }: ViewProps) {
                 {
                   translateX: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, -25],
+                    outputRange: [0, -30],
                   }),
                 },
                 {
                   translateY: moveAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, -25],
+                    outputRange: [0, -30],
                   }),
                 },
                 {
@@ -154,13 +154,13 @@ export function CustomIndicator({ style }: ViewProps) {
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
   },
   item: {
     position: "absolute",
-    width: 26,
-    height: 26,
+    width: 21,
+    height: 21,
     borderWidth: 1,
     backgroundColor: "lightblue",
   },
