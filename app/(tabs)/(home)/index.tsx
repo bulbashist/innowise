@@ -1,23 +1,19 @@
-import { useEffect } from "react";
-import { Appearance, SafeAreaView, StyleSheet, View } from "react-native";
+import { Appearance, SafeAreaView, StyleSheet } from "react-native";
+import { CharacterList, ControlView } from "@/components/home";
 import { useNetInfo } from "@react-native-community/netinfo";
-import ControlView from "@/components/ControlView";
-import { useAppSelector } from "@/store/store";
 import { NoInternet } from "@/components/NoInternet";
-import { CharacterList } from "@/components/List";
-import { Mode } from "@/types/Mode";
+import { useAppSelector } from "@/store/store";
+import { useEffect } from "react";
 
 export default function ListScreen() {
-  const mode = useAppSelector((state) => state.settings.mode);
+  const { offlineMode, theme } = useAppSelector((state) => state.settings);
   const netInfo = useNetInfo();
-
-  const theme = useAppSelector((state) => state.settings.theme);
 
   useEffect(() => {
     Appearance.setColorScheme(theme);
   }, []);
 
-  if (mode === Mode.Online && !netInfo.isConnected) {
+  if (!offlineMode && !netInfo.isConnected) {
     return <NoInternet style={styles.noInternet} />;
   }
 

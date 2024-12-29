@@ -1,23 +1,23 @@
-import { fetchCharacter } from "@/store/details/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Link, useLocalSearchParams } from "expo-router";
-import { useEffect } from "react";
-import { Image, StyleSheet, useWindowDimensions, View } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import { useNetInfo } from "@react-native-community/netinfo";
-import { NoInternet } from "@/components/NoInternet";
-import { Theme } from "@/types/Theme";
-import { CustomIndicator } from "@/components/CustomIndicator";
-import { MainInfo } from "@/components/details/MainInfo";
-import { BottomLine } from "@/components/details/BottomLine";
+import { BottomLine, MainInfo } from "@/components/details";
+import { Link, useLocalSearchParams } from "expo-router";
+import { fetchCharacter } from "@/store/details/slice";
+import { Image, StyleSheet, View } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useEffect } from "react";
+import {
+  CustomIndicator,
+  NoInternet,
+  ThemedText,
+  ThemedView,
+} from "@/components";
 
 export default function CharacterScreen() {
+  const iconColor = useThemeColor({}, "icon");
   const { id } = useLocalSearchParams();
   const netInfo = useNetInfo();
-
-  const { width, height } = useWindowDimensions();
 
   const {
     data: character,
@@ -30,11 +30,8 @@ export default function CharacterScreen() {
     dispatch(fetchCharacter(+id));
   }, [id]);
 
-  const theme = useAppSelector((state) => state.settings.theme);
-  const iconColor = theme === Theme.Light ? "black" : "white";
-
-  if (!netInfo.isConnected) {
-    return <NoInternet />;
+  if (!netInfo.isConnected || error) {
+    return <NoInternet style={styles.noInternet} />;
   }
 
   if (loading)
@@ -73,6 +70,13 @@ export default function CharacterScreen() {
 }
 
 const styles = StyleSheet.create({
+  noInternet: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+  },
   indicator: {
     display: "flex",
     justifyContent: "center",

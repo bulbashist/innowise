@@ -1,7 +1,7 @@
+import { StyleSheet, TouchableOpacity, View, ViewProps } from "react-native";
 import { refresh } from "@react-native-community/netinfo";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
-import { StyleSheet, TouchableOpacity, View, ViewProps } from "react-native";
 
 export function NoInternet({ style }: ViewProps) {
   return (

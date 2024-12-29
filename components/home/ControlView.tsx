@@ -1,22 +1,30 @@
-import { changeFilter } from "@/store/list/slice";
 import { useAppDispatch, useAppSelector } from "@/store/store";
-import { Theme } from "@/types/Theme";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { Picker } from "@react-native-picker/picker";
+import { changeFilter } from "@/store/list/slice";
 import { StyleSheet, View } from "react-native";
 
-export default function ControlView() {
+export function ControlView() {
   const { species, status } = useAppSelector((state) => state.list.filter);
-  const theme = useAppSelector((state) => state.settings.theme);
+  const backColor = useThemeColor(
+    { dark: "#111111", light: "#ffffff" },
+    "background"
+  );
+  const textColor = useThemeColor(
+    { dark: "#ffffff", light: "#111111" },
+    "text"
+  );
+  const iconColor = useThemeColor({}, "icon");
   const dispatch = useAppDispatch();
-
-  const pickerTheme = theme === Theme.Dark ? styles.darkPicker : null;
-  const pickerItemTheme = theme === Theme.Dark ? styles.darkItemPicker : null;
 
   return (
     <View style={styles.wrapper}>
       <Picker
-        dropdownIconColor={theme === Theme.Light ? "black" : "white"}
-        style={[styles.picker, pickerTheme]}
+        dropdownIconColor={iconColor}
+        style={[
+          styles.picker,
+          { backgroundColor: backColor, color: textColor },
+        ]}
         mode="dropdown"
         selectedValue={species}
         onValueChange={(value) =>
@@ -24,24 +32,27 @@ export default function ControlView() {
         }
       >
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Any species"
           value=" "
         />
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Alien"
           value="Alien"
         />
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Human"
           value="Human"
         />
       </Picker>
       <Picker
-        dropdownIconColor={theme === Theme.Light ? "black" : "white"}
-        style={[styles.picker, pickerTheme]}
+        dropdownIconColor={iconColor}
+        style={[
+          styles.picker,
+          { backgroundColor: backColor, color: textColor },
+        ]}
         mode="dropdown"
         selectedValue={status}
         onValueChange={(value) => {
@@ -49,18 +60,22 @@ export default function ControlView() {
         }}
       >
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Any status"
           value=" "
         />
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Alive"
           value="Alive"
         />
-        <Picker.Item style={{ ...pickerItemTheme }} label="Dead" value="Dead" />
         <Picker.Item
-          style={{ ...pickerItemTheme }}
+          style={{ backgroundColor: backColor, color: textColor }}
+          label="Dead"
+          value="Dead"
+        />
+        <Picker.Item
+          style={{ backgroundColor: backColor, color: textColor }}
           label="Unknown"
           value="unknown"
         />
@@ -80,13 +95,5 @@ const styles = StyleSheet.create({
   },
   picker: {
     minWidth: 200,
-  },
-  darkPicker: {
-    backgroundColor: "#111111",
-    color: "white",
-  },
-  darkItemPicker: {
-    backgroundColor: "#111111",
-    color: "white",
   },
 });

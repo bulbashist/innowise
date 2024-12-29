@@ -1,12 +1,9 @@
-import React from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet, View, ViewProps } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useAppSelector } from "@/store/store";
-import { Character } from "@/types/Character";
-import { StatusColor } from "@/types/StatusColor";
-import { Theme } from "@/types/Theme";
+import { Character, StatusColor } from "@/types";
 
 type Props = ViewProps & {
   character: Character;
@@ -18,9 +15,7 @@ const speciesIconMap = new Map([
 ]);
 
 export function BottomLine({ character, style }: Props) {
-  const theme = useAppSelector((state) => state.settings.theme);
-  const iconColor = theme === Theme.Light ? "black" : "white";
-
+  const iconColor = useThemeColor({}, "icon");
   const iconName =
     (speciesIconMap.get(character.species) as never) ?? "account-question";
 

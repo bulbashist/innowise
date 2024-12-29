@@ -1,6 +1,6 @@
-import { CharacterAPI } from "@/services/api/q/CharacterAPI";
-import { Character } from "@/types/Character";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CharacterAPI } from "@/services/api/character/CharacterAPI";
+import { Character } from "@/types";
 
 type State = {
   data: Character | null;
@@ -33,11 +33,11 @@ const details = createSlice({
           state.error = false;
         }
       )
-      .addCase(fetchCharacter.pending, (state, action) => {
+      .addCase(fetchCharacter.pending, (state) => {
         state.loading = true;
         state.error = false;
       })
-      .addCase(fetchCharacter.rejected, (state, action) => {
+      .addCase(fetchCharacter.rejected, (state) => {
         state.loading = false;
         state.error = true;
       }),

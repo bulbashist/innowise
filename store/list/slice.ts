@@ -1,13 +1,8 @@
-import { CharacterAPI } from "@/services/api/q/CharacterAPI";
-import { Character } from "@/types/Character";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import NetInfo from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export type Filter = {
-  status: string;
-  species: string;
-};
+import { CharacterAPI } from "@/services/api/character/CharacterAPI";
+import NetInfo from "@react-native-community/netinfo";
+import { Character, Filter } from "@/types";
 
 type State = {
   page: number;
@@ -34,7 +29,7 @@ const fetchPage = createAsyncThunk(
       }));
     } else {
       if (first) {
-        return CharacterAPI.getMockedOnes().then((res) => ({
+        return CharacterAPI.getMockedOnes(filter).then((res) => ({
           data: res,
           first,
         }));
@@ -70,21 +65,15 @@ const list = createSlice({
         } else {
           state.data = state.data.concat(action.payload.data);
         }
-
-        AsyncStorage.setItem(
-          "mock-data",
-          JSON.stringify(action.payload.data.slice(-15))
-        );
-
         state.loading = false;
         state.error = false;
         state.page += 1;
       })
-      .addCase(fetchPage.pending, (state, action) => {
+      .addCase(fetchPage.pending, (state) => {
         state.loading = true;
         state.error = false;
       })
-      .addCase(fetchPage.rejected, (state, action) => {
+      .addCase(fetchPage.rejected, (state) => {
         state.loading = false;
         state.error = true;
       }),

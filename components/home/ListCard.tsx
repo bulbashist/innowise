@@ -1,10 +1,9 @@
-import { Character } from "@/types/Character";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
-import { StatusColor } from "@/types/StatusColor";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Character, StatusColor } from "@/types";
+import { ThemedText } from "../ThemedText";
+import { ThemedView } from "../ThemedView";
+import { Link } from "expo-router";
 
 type Props = {
   item: Character;

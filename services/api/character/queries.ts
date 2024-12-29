@@ -1,4 +1,4 @@
-import { Filter } from "@/store/list/slice";
+import { Filter } from "@/types";
 
 const getOneQuery = (id: number) => {
   return `
@@ -24,9 +24,6 @@ const getOneQuery = (id: number) => {
     }`;
 };
 
-// "fgg" : null
-
-// FIX
 const getManyQuery = (page: number, filter: Filter) => {
   return `
     query {
