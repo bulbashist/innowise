@@ -31,6 +31,9 @@ const getManyQuery = (page: number, filter: Filter) => {
         status: "${filter.status}",
         species: "${filter.species}"
       }) {
+        info {
+          next
+        }
         results {
           id
           name

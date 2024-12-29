@@ -16,11 +16,13 @@ export function CharacterList() {
   const lock = useRef(false);
 
   useEffect(() => {
-    dispatch(fetchPage({ page, filter, first: true }));
+    if (page) {
+      dispatch(fetchPage({ page, filter, first: true }));
+    }
   }, [filter]);
 
   const uploadPage = () => {
-    if (!loading) {
+    if (!loading && page) {
       dispatch(fetchPage({ page, filter }));
     }
   };

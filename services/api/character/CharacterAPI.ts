@@ -4,11 +4,17 @@ import { Character, Filter } from "@/types";
 import * as data from "./MockData.json";
 import axios from "axios";
 
+type Response = {
+  data: Character[];
+  page: number | null;
+};
+
 export class CharacterAPI {
-  public static async getMockedOnes(filter: Filter): Promise<Character[]> {
-    return this.getSavedRecords().then((chars) =>
-      chars.filter((v) => this.isMatch(v, filter))
-    );
+  public static async getMockedOnes(filter: Filter): Promise<Response> {
+    return this.getSavedRecords().then((chars) => ({
+      data: chars.filter((v) => this.isMatch(v, filter)),
+      page: null,
+    }));
   }
 
   public static async getOne(id: number): Promise<Character> {
@@ -17,18 +23,19 @@ export class CharacterAPI {
       .then((res) => res.data.data.character);
   }
 
-  public static async getMany(
-    page: number,
-    filter: Filter
-  ): Promise<Character[]> {
+  public static async getMany(page: number, filter: Filter): Promise<Response> {
     return axios
       .post("https://rickandmortyapi.graphcdn.app/", {
         query: getManyQuery(page, filter),
       })
       .then((res) => {
         const data = res.data.data.characters.results as Character[];
+        const page = res.data.data.characters.info.next;
         if (data.length) this.saveLastRecords(data.slice(-15));
-        return data;
+        return {
+          data,
+          page,
+        };
       });
   }
 

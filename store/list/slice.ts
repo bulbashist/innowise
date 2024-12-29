@@ -5,7 +5,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { Character, Filter } from "@/types";
 
 type State = {
-  page: number;
+  page: number | null;
   data: Character[];
   filter: Filter;
   loading: boolean;
@@ -61,13 +61,13 @@ const list = createSlice({
     builder
       .addCase(fetchPage.fulfilled, (state, action) => {
         if (action.payload.first) {
-          state.data = action.payload.data;
+          state.data = action.payload.data.data;
         } else {
-          state.data = state.data.concat(action.payload.data);
+          state.data = state.data.concat(action.payload.data.data);
         }
         state.loading = false;
         state.error = false;
-        state.page += 1;
+        state.page = action.payload.data.page;
       })
       .addCase(fetchPage.pending, (state) => {
         state.loading = true;
