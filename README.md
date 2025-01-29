@@ -8,5 +8,4 @@ npm run android
 eas login
 eas build -p android --profile production
 
-ссылка на готовый apk:
-https://expo.dev/accounts/bulbashist/projects/app/builds/f90cea63-a27f-4c7a-918d-3a1cf78a1ce4
+Условия тестового задания в файле Rick&Morty Test Task.pdf
